@@ -172,18 +172,36 @@ class UserController{
         )
     }
 
-    //Lista os dados que já estão no localStorage
+    //Lista os dados no servidor
     selectAll(){
-        let users = User.getUsersStorage()
+        let ajax = new XMLHttpRequest();
 
-        users.forEach(dataUser => {
+        //Método e rota
+        ajax.open('GET', '/users')
 
-            let user = new User() //instância dos usuários pra poder funcionar no addLine
+        //Evento de resposta: quando conseguiu carregar retorna as infos do servidor
+        ajax.onload = event => {
 
-            user.loadFromJSON(dataUser)//carrega de um json
-            
-            this.addLine(user)
-        })
+            let obj = { users: [] }
+
+            try {
+                obj = JSON.parse(ajax.responseText)
+            }catch(e){
+                //se não for um json válido, retorna um erro
+                console.error(e)
+            }
+
+            obj.users.forEach(dataUser => {
+
+                let user = new User() //instância dos usuários pra poder funcionar no addLine
+    
+                user.loadFromJSON(dataUser)//carrega de um json
+                
+                this.addLine(user)
+            })
+        }   
+            //Carregou, chama a solicitação
+            ajax.send() 
     } 
 
     addLine(dataUser){
