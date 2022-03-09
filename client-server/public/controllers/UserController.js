@@ -174,24 +174,9 @@ class UserController{
 
     //Lista os dados no servidor
     selectAll(){
-        let ajax = new XMLHttpRequest();
 
-        //Método e rota
-        ajax.open('GET', '/users')
-
-        //Evento de resposta: quando conseguiu carregar retorna as infos do servidor
-        ajax.onload = event => {
-
-            let obj = { users: [] }
-
-            try {
-                obj = JSON.parse(ajax.responseText)
-            }catch(e){
-                //se não for um json válido, retorna um erro
-                console.error(e)
-            }
-
-            obj.users.forEach(dataUser => {
+        HttpRequest.get('/users').then(data => {
+            data.users.forEach(dataUser => {
 
                 let user = new User() //instância dos usuários pra poder funcionar no addLine
     
@@ -199,9 +184,7 @@ class UserController{
                 
                 this.addLine(user)
             })
-        }   
-            //Carregou, chama a solicitação
-            ajax.send() 
+        }) 
     } 
 
     addLine(dataUser){
