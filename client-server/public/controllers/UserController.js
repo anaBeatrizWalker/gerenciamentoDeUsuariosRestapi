@@ -49,17 +49,17 @@ class UserController{
                 let user = new User()
                 user.loadFromJSON(result) //tira o underline dos dados do usuário para serem usados na tabela
 
-                //Salva no localStorage
-                user.save()
-
-                this.getTr(user, tr)
+                //Salva no servidor
+                user.save().then(user => {
+                    this.getTr(user, tr)
                 
-                this.updateCount()
+                    this.updateCount()
 
-                //habilita o botao e limpa o form
-                btn.disabled = false
-                this.formUpdateEl.reset()
-                this.showPanelCreate()
+                    //habilita o botao e limpa o form
+                    btn.disabled = false
+                    this.formUpdateEl.reset()
+                    this.showPanelCreate()
+                })
             })
         })
     }
@@ -84,14 +84,17 @@ class UserController{
                 //quando der certo
                 values.photo = content
 
-                //Salva no localStorage
-                values.save()
+                //Salva no servidor
+                values.save().then(user => {
 
-                this.addLine(values) 
+                    this.addLine(user) 
                 
-                //limpa o form e ativa o botão
-                this.formEl.reset()
-                btn.disabled = false
+                    //limpa o form e ativa o botão
+                    this.formEl.reset()
+                    btn.disabled = false
+                })
+
+                
 
             }, (e)=>{
                 //quando der erro

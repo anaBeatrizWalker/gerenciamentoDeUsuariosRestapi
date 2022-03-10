@@ -69,7 +69,8 @@ class User{
                 break;
 
                 default:
-                    this[name] = json[name]
+                    //Se a substring começando do index 0, no primeiro caractere começar com _
+                    if(name.substring(0, 1) === '_') this[name] = json[name]
             }
         }
     }
@@ -97,29 +98,35 @@ class User{
 
         return userId
     }
+
+    toJSON(){
+        let json = {}
+        //Pega as chaves/atributos do objeto
+        Object.keys(this).forEach(key => {
+            if(this[key] !== undefined) json[key] = this[key]
+        })
+        return json
+    }
     
     save(){
-        let users = User.getUsersStorage()
 
-        //se o id existe
-        if(this.id > 0){
-            //editar o usuário
-            users.map(u => {
-
-                if(u._id == this.id){ //se o id for igual ao id do usuário a ser editado pega o objeto do usuário e substitui o que tiver que substituir
-                    
-                    Object.assign(u, this) //compara os dois e "atualiza" como o que veio do this 
-                }
-                return u
+        return new Promise((resolve, reject) => {
+            let promise
+            if(this.id){
+                //Editar
+                promise = HttpRequest.put(`/users/${this.id}`, this.toJSON())
+            }else{
+                //Cadastrar
+                promise = HttpRequest.post(`/users/`, this.toJSON())
+            }
+            //Carrega e atualiza os dados
+            promise.then(data => {
+                this.loadFromJSON(data)
+                resolve(this)
+            }).catch(e => {
+                reject(e)
             })
-
-        } else{
-            //se não existe, gera um novo
-            this._id = this.getNewId()
-
-            users.push(this)
-        }
-        localStorage.setItem("user", JSON.stringify(users))
+        })
     }
 
     remove(){

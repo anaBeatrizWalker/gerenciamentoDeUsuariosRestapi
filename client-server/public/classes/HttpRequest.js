@@ -39,8 +39,10 @@ class HttpRequest {
                 }
                 resolve(obj)
             }   
+            //Definindo o cabeçalho
+            ajax.setRequestHeader('Content-Type', 'application/json')
             //Carregou, chama a solicitação
-            ajax.send()
+            ajax.send(JSON.stringify(params)) //ajax só entende string
         })
     }
 }
