@@ -130,16 +130,7 @@ class User{
     }
 
     remove(){
-        let users = User.getUsersStorage() //array de usuários
 
-        users.forEach((userData, index)=>{ //recebe os dados e a posição deles
-
-            if(this._id == userData._id){ //encontra o usuário que quer excluir
-
-                users.splice(index, 1) //splice elimina(indice do elemento, quantos irá remover)
-            }
-        })
-        localStorage.setItem("user",JSON.stringify(users))
-        //removeItem remove a chave do localeStorage, poderia ser usado para remover todos os usuários
+        return HttpRequest.delete(`/users/${this.id}`)
     }
 }

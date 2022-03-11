@@ -232,11 +232,12 @@ class UserController{
                 let user = new User()
                 user.loadFromJSON(JSON.parse(tr.dataset.user))
 
-                user.remove()//método do Users.js, remove do localStorage
-                
-                tr.remove()//comando html, remove da tela a linha tr do usuário
+                user.remove().then(data => {//método do Users.js
 
-                this.updateCount()//assim que remove, atualiza as estatísticas
+                    tr.remove()//comando html, remove da tela a linha tr do usuário
+
+                    this.updateCount()//assim que remove, atualiza as estatísticas
+                })
             }
         })
 
