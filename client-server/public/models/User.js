@@ -77,7 +77,7 @@ class User{
     
     static getUsersStorage(){
         
-        return HttpRequest.get('/users')
+        return Fecth.get('/users')
     }
 
     toJSON(){
@@ -95,10 +95,10 @@ class User{
             let promise
             if(this.id){
                 //Editar
-                promise = HttpRequest.put(`/users/${this.id}`, this.toJSON())
+                promise = Fecth.put(`/users/${this.id}`, this.toJSON())
             }else{
                 //Cadastrar
-                promise = HttpRequest.post(`/users/`, this.toJSON())
+                promise = Fecth.post(`/users/`, this.toJSON())
             }
             //Carrega e atualiza os dados
             promise.then(data => {
@@ -112,6 +112,6 @@ class User{
 
     remove(){
 
-        return HttpRequest.delete(`/users/${this.id}`)
+        return Fecth.delete(`/users/${this.id}`)
     }
 }
