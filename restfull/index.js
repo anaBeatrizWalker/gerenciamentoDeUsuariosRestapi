@@ -6,8 +6,8 @@ const expressValidator = require('express-validator')
 let app = express()
 
 //Interpretando o que está no post
-app.use(bodyParser.urlencoded({ extended: false })); //Consegue entender independente da codificação
-app.use(bodyParser.json()); //Todos os dados que receber via post, converte em json
+app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' })); //Consegue entender independente da codificação
+app.use(bodyParser.json({limit: '50mb'})); //Todos os dados que receber via post, converte em json, limite de tamanho de 50mb
 app.use(expressValidator());
 
 consign().include('routes').include('utils').into(app);
