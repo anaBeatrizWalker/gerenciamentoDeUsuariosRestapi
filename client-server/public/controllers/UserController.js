@@ -178,7 +178,7 @@ class UserController{
     //Lista os dados no servidor
     selectAll(){
 
-        HttpRequest.get('/users').then(data => {
+        User.getUsersStorage().then(data => {
             data.users.forEach(dataUser => {
 
                 let user = new User() //instância dos usuários pra poder funcionar no addLine

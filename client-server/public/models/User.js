@@ -76,27 +76,8 @@ class User{
     }
     
     static getUsersStorage(){
-        let users = []
-        //se tem algo no localStorage
-        if(localStorage.getItem("user")){
-            //sobrescreve
-            users = JSON.parse(localStorage.getItem("user"))
-        }
-        return users
-    }
-
-    //Cria um id, para registrar unicamente cada usuário
-    getNewId(){
-
-        let userId = parseInt(localStorage.getItem("userId"))
-
-        if(!userId > 0) userId = 0 //se não existe, cria um que recebe zero
-
-        userId++ //pega o existente e soma mais um
-
-        localStorage.setItem("userId", userId) //sempre que gerar um novo id, armazena o último no localS
-
-        return userId
+        
+        return HttpRequest.get('/users')
     }
 
     toJSON(){
